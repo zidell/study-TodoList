@@ -1,5 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
+	import ScheduleList from './scheduleList.svelte';
+	import { todoData } from '../stores/todoStore';
+	import {get} from 'svelte/store';
 
 	let tooltip = { visible: false, x: 0, y: 0, text: '' };
 
@@ -7,13 +10,7 @@
 		const canvas = document.getElementById('TodoChart');
 		const ctx = canvas.getContext('2d');
 
-		const data = [
-			{ name: 'Todo', importance: 10, urgency: 5 },
-			{ name: '밥먹기', importance: 3, urgency: 8 },
-			{ name: '숨쉬기', importance: 1, urgency: 10 },
-			{ name: '물마시기', importance: 2, urgency: 9 },
-			{ name: '잠자기', importance: 4, urgency: 7 },
-		];
+		// const data = get(todoData);
 
 		const width = canvas.width;
 		const height = canvas.height;
@@ -37,7 +34,7 @@
 			ctx.fillRect(padding + halfWidth, padding + halfHeight, halfWidth, halfHeight);
 
 			// 데이터 포인트 그리기
-			data.forEach(point => {
+			$todoData.forEach(point => {
 				const x = padding + ((point.importance - 5) / 10) * (width - 2 * padding) + halfWidth;
 				const y = height - padding - ((point.urgency - 5) / 10) * (height - 2 * padding) - halfHeight;
 
@@ -61,7 +58,7 @@
 			const mouseY = event.clientY - rect.top;
 
 			let found = false;
-			data.forEach(point => {
+			$todoData.forEach(point => {
 				const x = padding + ((point.importance / 10) * (width - 2 * padding));
 				const y = height - padding - ((point.urgency / 10) * (height - 2 * padding));
 
@@ -101,6 +98,9 @@
 			{tooltip.text}
 		</div>
 	{/if}
+</section>
+<section>
+	<ScheduleList />
 </section>
 
 <style>

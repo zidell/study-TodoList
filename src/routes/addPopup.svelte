@@ -11,6 +11,7 @@
   let memo = '';
   let category = '';
   let newCategory = '';
+  let completed = false;
 
   function addCategory() {
     categories.update((data) => [...data, newCategory]);
@@ -35,6 +36,7 @@
       deadline,
       memo,
       category,
+      completed,
     };
     todoData.update((data) => {
     const updatedData = [...data, todo];
@@ -48,6 +50,7 @@
     deadline = '';
     memo = '';
     category = '';
+    completed = false;
   }
 
   // 스토어 값 변경 시 로그 출력
